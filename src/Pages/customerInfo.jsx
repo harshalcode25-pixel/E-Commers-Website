@@ -48,9 +48,9 @@ function CustomerInfo() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
 
-      <div className="w-full max-w-sm bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="w-full max-w-sm bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden dark:bg-gray-800 dark:border-gray-700">
 
         {/* Header */}
         <div className="bg-black px-4 py-3 text-white">
@@ -79,7 +79,7 @@ function CustomerInfo() {
           {/* Name */}
           <div className="mb-3">
 
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-1 dark:text-gray-200">
               Full Name
             </label>
 
@@ -88,7 +88,7 @@ function CustomerInfo() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             />
 
             {errors.name && (
@@ -102,7 +102,7 @@ function CustomerInfo() {
           {/* Mobile */}
           <div className="mb-3">
 
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-1 dark:text-gray-200">
               Mobile Number
             </label>
 
@@ -111,7 +111,7 @@ function CustomerInfo() {
               placeholder="Enter mobile number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             />
 
             {errors.mobile && (
@@ -128,7 +128,7 @@ function CustomerInfo() {
             {/* Location */}
             <div>
 
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-1 dark:text-gray-200">
                 Location
               </label>
 
@@ -137,7 +137,7 @@ function CustomerInfo() {
                 placeholder="City"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               />
 
               {errors.location && (
@@ -151,7 +151,7 @@ function CustomerInfo() {
             {/* Pincode */}
             <div>
 
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-1 dark:text-gray-200">
                 Pincode
               </label>
 
@@ -160,7 +160,7 @@ function CustomerInfo() {
                 placeholder="Pincode"
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               />
 
               {errors.pincode && (
@@ -176,7 +176,7 @@ function CustomerInfo() {
           {/* Address */}
           <div className="mb-4">
 
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-1 dark:text-gray-200">
               Full Address
             </label>
 
@@ -185,7 +185,7 @@ function CustomerInfo() {
               rows="2"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none resize-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none resize-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             ></textarea>
 
             {errors.address && (

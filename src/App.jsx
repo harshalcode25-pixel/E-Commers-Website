@@ -12,7 +12,7 @@ import CustomerInfo from "./Pages/customerInfo";
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       
 
      <Routes>

@@ -18,7 +18,7 @@ function AddCart() {
   }, 0);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 min-h-screen dark:bg-gray-950 dark:text-gray-100">
       <Navbar />
 
       <div className="p-8">
@@ -35,7 +35,7 @@ function AddCart() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center bg-white shadow-lg rounded-xl p-5 mb-5"
+                  className="flex items-center bg-white shadow-lg rounded-xl p-5 mb-5 dark:bg-gray-800"
                 >
 
                   {/* Image */}
@@ -48,11 +48,11 @@ function AddCart() {
                   {/* Product Details */}
                   <div className="ml-6 flex-1">
 
-                    <h2 className="text-xl font-bold text-gray-800">
+                    <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                       {item.productName}
                     </h2>
 
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-gray-500 mt-1 dark:text-gray-400">
                       {item.productInfo}
                     </p>
 
@@ -66,7 +66,7 @@ function AddCart() {
 
                       {/* - BUTTON */}
                       <button
-                        className="w-8 h-8 bg-gray-200 rounded-lg text-xl"
+                        className="w-8 h-8 bg-gray-200 rounded-lg text-xl dark:bg-gray-700"
                         onClick={() => {
                           if (quantity > 1) {
                             setProductQuatity({
@@ -85,7 +85,7 @@ function AddCart() {
 
                       {/* + BUTTON */}
                       <button
-                        className="w-8 h-8 bg-gray-200 rounded-lg text-xl"
+                        className="w-8 h-8 bg-gray-200 rounded-lg text-xl dark:bg-gray-700"
                         onClick={() => {
                           setProductQuatity({
                             ...productQuatity,
@@ -118,14 +118,14 @@ function AddCart() {
           {/* RIGHT SIDE - SUMMARY */}
           <div className="w-1/3">
 
-            <div className="bg-white shadow-lg rounded-xl p-6">
+            <div className="bg-white shadow-lg rounded-xl p-6 dark:bg-gray-800">
 
               <h2 className="text-2xl font-bold mb-6">
                 Product Summary
               </h2>
 
               <div className="flex justify-between mb-4">
-                <span className="text-gray-600">
+                <span className="text-gray-600 dark:text-gray-300">
                   Products
                 </span>
 
@@ -135,7 +135,7 @@ function AddCart() {
               </div>
 
               <div className="flex justify-between mb-4">
-                <span className="text-gray-600">
+                <span className="text-gray-600 dark:text-gray-300">
                   Delivery
                 </span>
 

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { products } from "../Data/ProductData";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -8,6 +8,14 @@ function ProductContext(props) {
   const [cart, setCart] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(
+    () => localStorage.getItem("theme") === "dark",
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   const addCart = (item) => {
     setCart((currentCart) => [...currentCart, item]);
@@ -31,6 +39,8 @@ function ProductContext(props) {
           setSearchQuery,
           selectedCategory,
           setSelectedCategory,
+          isDarkMode,
+          setIsDarkMode,
           addCart,
           removeCart,
         }}

@@ -57,7 +57,7 @@ function ItemCard() {
           return (
             <div
               key={item.id}
-              className="w-full max-w-64 bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-300"
+              className="w-full max-w-64 bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-300 dark:bg-gray-800"
             >
               <img
                 src={item.img}
@@ -66,14 +66,14 @@ function ItemCard() {
               />
 
               <div className="p-3">
-                <h2 className="text-lg font-semibold text-gray-800">
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                   {item.productName}
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">{item.productInfo}</p>
+                <p className="text-sm text-gray-500 mt-1 dark:text-gray-400">{item.productInfo}</p>
 
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-xl font-bold text-gray-900">
+                  <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
                     ₹{item.productPrice}
                   </span>
 
