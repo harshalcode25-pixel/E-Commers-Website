@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ProductDataContext } from "../Context/ProductContext";
 
 function ItemCard() {
-  const { products, cart, addCart, searchQuery, selectedCategory } = useContext(ProductDataContext);
+  const { products, cart, addCart, searchQuery, selectedCategory } =
+    useContext(ProductDataContext);
 
   const [notification, setNotification] = useState("");
   const notificationTimer = useRef(null);
@@ -30,13 +31,14 @@ function ItemCard() {
   const filteredProducts = products.filter((item) => {
     const query = searchQuery.trim().toLowerCase();
 
-    const matchesSearch = (
+    const matchesSearch =
       item.productName.toLowerCase().includes(query) ||
       item.productInfo.toLowerCase().includes(query) ||
-      item.category.toLowerCase().includes(query)
-    );
+      item.category.toLowerCase().includes(query);
 
-    return matchesSearch && (!selectedCategory || item.category === selectedCategory);
+    return (
+      matchesSearch && (!selectedCategory || item.category === selectedCategory)
+    );
   });
 
   return (
@@ -52,27 +54,29 @@ function ItemCard() {
       )}
 
       {/* Products */}
-      <div className="grid grid-cols-1 gap-8 px-6 py-6 pt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <section className="mx-auto grid w-full max-w-screen-2xl grid-cols-1 gap-6 px-4 py-6 pt-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 xl:grid-cols-4">
         {filteredProducts.map((item) => {
           return (
             <div
               key={item.id}
-              className="w-full max-w-64 bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-300 dark:bg-gray-800"
+              className="flex h-full w-full max-w-72 justify-self-center flex-col overflow-hidden rounded-xl bg-white shadow-lg transition duration-300 hover:scale-[1.02] hover:shadow-2xl dark:bg-gray-800"
             >
               <img
                 src={item.img}
                 alt={item.productName}
-                className="w-full h-50 object-cover"
+                className="h-48 w-full object-cover"
               />
 
-              <div className="p-3">
+              <div className="flex flex-1 flex-col p-3">
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                   {item.productName}
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1 dark:text-gray-400">{item.productInfo}</p>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  {item.productInfo}
+                </p>
 
-                <div className="flex items-center justify-between mt-2">
+                <div className="mt-3 flex items-center justify-between">
                   <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
                     ₹{item.productPrice}
                   </span>
@@ -83,7 +87,7 @@ function ItemCard() {
                 </div>
 
                 <button
-                  className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition active:bg-blue-700 active:scale-90"
+                  className="mt-4 w-full rounded-lg bg-black py-2 text-white transition-all hover:bg-gray-800 active:scale-95 active:bg-blue-700 dark:hover:bg-gray-900"
                   onClick={() => handleAddToCart(item)}
                 >
                   {cart.some((cartItem) => cartItem.id === item.id)
@@ -100,7 +104,7 @@ function ItemCard() {
             No products found for “{searchQuery}”.
           </p>
         )}
-      </div>
+      </section>
     </>
   );
 }

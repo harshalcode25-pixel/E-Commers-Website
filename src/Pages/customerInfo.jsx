@@ -48,7 +48,7 @@ function CustomerInfo() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-6 sm:p-6 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
 
       <div className="w-full max-w-sm bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden dark:bg-gray-800 dark:border-gray-700">
 
@@ -74,7 +74,7 @@ function CustomerInfo() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5">
 
           {/* Name */}
           <div className="mb-3">
@@ -88,7 +88,7 @@ function CustomerInfo() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:bg-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-900/60"
             />
 
             {errors.name && (
@@ -111,7 +111,7 @@ function CustomerInfo() {
               placeholder="Enter mobile number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:bg-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-900/60"
             />
 
             {errors.mobile && (
@@ -123,7 +123,7 @@ function CustomerInfo() {
           </div>
 
           {/* Location + Pincode */}
-          <div className="grid grid-cols-2 gap-2 mb-3">
+          <div className="grid grid-cols-1 gap-3 mb-3 min-[400px]:grid-cols-2 min-[400px]:gap-2">
 
             {/* Location */}
             <div>
@@ -137,7 +137,7 @@ function CustomerInfo() {
                 placeholder="City"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:bg-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-900/60"
               />
 
               {errors.location && (
@@ -160,7 +160,7 @@ function CustomerInfo() {
                 placeholder="Pincode"
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:bg-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-900/60"
               />
 
               {errors.pincode && (
@@ -185,7 +185,7 @@ function CustomerInfo() {
               rows="2"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 outline-none resize-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 outline-none resize-none transition focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:bg-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-900/60"
             ></textarea>
 
             {errors.address && (
@@ -208,7 +208,7 @@ function CustomerInfo() {
           <button
             type="button"
             onClick={() => navigate("/card")}
-            className="w-full mt-2 py-2.5 rounded-lg text-gray-700 font-semibold bg-gray-200 hover:bg-gray-300 hover:-translate-y-0.5 transition-all duration-300"
+            className="w-full mt-2 py-2.5 rounded-lg text-gray-700 font-semibold bg-gray-200 hover:bg-gray-300 hover:-translate-y-0.5 transition-all duration-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
           >
             ← Back to Cart
           </button>
@@ -220,7 +220,7 @@ function CustomerInfo() {
       {orderSuccess && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
 
-          <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-7 text-center animate-[popup_0.4s_ease-out]">
+          <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-5 sm:p-7 text-center animate-[popup_0.4s_ease-out] dark:bg-gray-800">
 
             <div className="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-5">
 
@@ -234,15 +234,15 @@ function CustomerInfo() {
 
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               Order Successful!
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-2 dark:text-gray-300">
               Your order has been placed successfully.
             </p>
 
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-gray-400 mt-1 dark:text-gray-400">
               Thank you for shopping with us!
             </p>
 

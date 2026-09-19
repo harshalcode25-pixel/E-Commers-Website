@@ -5,7 +5,6 @@ function ItemCategory() {
   const { selectedCategory, setSelectedCategory } =
     useContext(ProductDataContext);
 
-
   const categories = [
     { label: "All", value: "" },
     { label: "Headphones", value: "Headphone" },

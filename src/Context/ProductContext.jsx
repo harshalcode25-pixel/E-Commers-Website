@@ -25,9 +25,6 @@ function ProductContext(props) {
     setCart((currentCart) => currentCart.filter((item) => item.id !== id));
   };
 
-   
-  
-
   return (
     <div>
       <ProductDataContext.Provider

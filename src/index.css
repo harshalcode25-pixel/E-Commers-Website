@@ -10,6 +10,11 @@ html::-webkit-scrollbar {
   display: none;
 }
 
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
 @keyframes popup {
   from {
     opacity: 0;
