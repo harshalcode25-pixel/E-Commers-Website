@@ -6,6 +6,7 @@ import Footer from "./Components/Footer";
 import { Route, Routes } from "react-router-dom";
 import AddCart from "./Pages/AddCart";
 import CustomerInfo from "./Pages/customerInfo";
+import ProductDetails from "./Pages/ProductDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           }
         />
         <Route path="/card" element={<AddCart />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         <Route
           path="/card/orderSucces/customerInfo"
           element={<CustomerInfo />}

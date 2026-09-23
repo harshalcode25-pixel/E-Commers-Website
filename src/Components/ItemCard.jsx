@@ -1,112 +1,96 @@
-import { useContext, useEffect, useRef, useState } from "react";
+﻿import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Star, Plus, Check } from "lucide-react";
 import { ProductDataContext } from "../Context/ProductContext";
 
-function ItemCard() {
+export default function ItemCard() {
   const { products, cart, addCart, searchQuery, selectedCategory } =
     useContext(ProductDataContext);
-
-  const [notification, setNotification] = useState("");
-  const notificationTimer = useRef(null);
-
-  useEffect(() => {
-    return () => clearTimeout(notificationTimer.current);
-  }, []);
-
-  const handleAddToCart = (item) => {
-    if (cart.some((cartItem) => cartItem.id === item.id)) {
-      return;
-    }
-
-    addCart(item);
-
-    setNotification(`${item.productName} added to cart`);
-
-    clearTimeout(notificationTimer.current);
-
-    notificationTimer.current = setTimeout(() => {
-      setNotification("");
-    }, 3000);
-  };
-
-  const filteredProducts = products.filter((item) => {
-    const query = searchQuery.trim().toLowerCase();
-
-    const matchesSearch =
-      item.productName.toLowerCase().includes(query) ||
-      item.productInfo.toLowerCase().includes(query) ||
-      item.category.toLowerCase().includes(query);
-
-    return (
-      matchesSearch && (!selectedCategory || item.category === selectedCategory)
-    );
-  });
-
+  const filtered = products.filter(
+    (item) =>
+      `${item.productName} ${item.productInfo} ${item.category}`
+        .toLowerCase()
+        .includes(searchQuery.trim().toLowerCase()) &&
+      (!selectedCategory || item.category === selectedCategory),
+  );
   return (
-    <>
-      {/* Notification */}
-      {notification && (
-        <div
-          className="fixed right-5 top-20 z-50 rounded-lg bg-green-600 px-5 py-3 text-sm font-medium text-white shadow-lg animate-[slideIn_0.4s_ease-out]"
-          role="status"
-        >
-          ✓ {notification}
+    <main className="pt-5 -mt-2 sm:pt-7 pb-8 mx-auto w-full max-w-6xl px-3 sm:px-6">
+      <div className="mb-5 sm:mb-7 flex items-center justify-between gap-2 sm:gap-4">
+        <div>
+          <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
+            Discover Your Favorites
+          </h1>
         </div>
-      )}
-
-      {/* Products */}
-      <section className="mx-auto grid w-full max-w-screen-2xl grid-cols-1 gap-6 px-4 py-6 pt-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.map((item) => {
+        <span className="text-gray-500 dark:text-gray-400">
+          {filtered.length} products
+        </span>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3.5 lg:grid-cols-4 lg:gap-6">
+        {filtered.map((item) => {
+          const added = cart.some((entry) => entry.id === item.id);
           return (
-            <div
+            <article
+              className="group min-w-0 overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition hover:-translate-y-1 hover:shadow-lg"
               key={item.id}
-              className="flex h-full w-full max-w-72 justify-self-center flex-col overflow-hidden rounded-xl bg-white shadow-lg transition duration-300 hover:scale-[1.02] hover:shadow-2xl dark:bg-gray-800"
             >
-              <img
-                src={item.img}
-                alt={item.productName}
-                className="h-48 w-full object-cover"
-              />
-
-              <div className="flex flex-1 flex-col p-3">
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                  {item.productName}
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Link
+                to={`/product/${item.id}`}
+                className="block aspect-square sm:aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700"
+              >
+                <img
+                  className="h-full w-full object-cover"
+                  src={item.img}
+                  alt={item.productName}
+                  loading="lazy"
+                />
+              </Link>
+              <div className="flex flex-col gap-1.5 p-2 sm:gap-2 sm:p-4">
+                <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-xs font-bold tracking-widest uppercase">
+                  {item.category}
+                </span>
+                <Link to={`/product/${item.id}`}>
+                  <h2 className="min-h-12 wrap-break-words text-xs font-semibold sm:text-base">
+                    {item.productName}
+                  </h2>
+                </Link>
+                <p className="hidden sm:block min-h-10 text-sm text-gray-500 dark:text-gray-400">
                   {item.productInfo}
                 </p>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                    ₹{item.productPrice}
-                  </span>
-
-                  <span className="text-sm text-yellow-500">
-                    ⭐ {item.rating}
-                  </span>
-                </div>
-
-                <button
-                  className="mt-4 w-full rounded-lg bg-black py-2 text-white transition-all hover:bg-gray-800 active:scale-95 active:bg-blue-700 dark:hover:bg-gray-900"
-                  onClick={() => handleAddToCart(item)}
-                >
-                  {cart.some((cartItem) => cartItem.id === item.id)
-                    ? "Added"
-                    : "Add to Cart"}
-                </button>
+                <span className="inline-flex items-center gap-1 text-xs sm:text-xs text-yellow-500 dark:text-yellow-400">
+                  <Star size={12} fill="currentColor" /> {item.rating}
+                </span>
+                <strong className="text-sm sm:text-lg tracking-tight whitespace-nowrap">
+                  ₹{item.productPrice.toLocaleString("en-IN")}
+                </strong>
+                {added ? (
+                  <Link
+                    className="flex min-h-11 items-center justify-center gap-1 sm:gap-1 rounded-md sm:rounded-lg text-xs sm:text-sm font-semibold bg-blue-700 text-white dark:hover:bg-gray-900"
+                    to="/card"
+                  >
+                    <Check className="hidden sm:block" size={14} /> In cart
+                  </Link>
+                ) : (
+                  <button
+                    className="flex min-h-11 items-center justify-center gap-1 sm:gap-1 rounded-md sm:rounded-lg text-xs sm:text-sm font-semibold text-white bg-black hover:bg-gray-800 active:scale-90 transition dark:hover:bg-gray-900"
+                    onClick={() => addCart(item)}
+                    aria-label={`Add ${item.productName} to cart`}
+                  >
+                    <Plus className="hidden sm:block" size={14} /> Add to cart
+                  </button>
+                )}
               </div>
-            </div>
+            </article>
           );
         })}
-
-        {filteredProducts.length === 0 && (
-          <p className="w-full py-10 text-center text-lg text-gray-500">
-            No products found for “{searchQuery}”.
+      </div>
+      {!filtered.length && (
+        <div className="flex flex-col items-center gap-5 px-5 py-15 text-center">
+          <h2 className="text-2xl font-bold">No products found</h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            Try another search or category.
           </p>
-        )}
-      </section>
-    </>
+        </div>
+      )}
+    </main>
   );
 }
-
-export default ItemCard;

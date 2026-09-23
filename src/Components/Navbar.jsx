@@ -5,11 +5,12 @@ import { ProductDataContext } from "../Context/ProductContext";
 
 function Navbar() {
   const { cart, isDarkMode, setIsDarkMode } = useContext(ProductDataContext);
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="flex w-full items-center justify-between border-gray-400 px-3 py-2 shadow-md sm:px-5 sm:py-3">
       <div className="flex items-center py-1 sm:py-2">
-        <Link to="/">
+        <Link to="/" aria-label="Home">
           <House className="size-11 rounded-2xl p-2 text-gray-400 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sm:size-15 sm:p-3" />
         </Link>
 
@@ -40,17 +41,15 @@ function Navbar() {
         <Link
           to="/card"
           className="relative"
-          aria-label={`Cart with ${cart.length} ${cart.length === 1 ? "item" : "items"}`}
+          aria-label={`Cart with ${count} ${count === 1 ? "item" : "items"}`}
         >
           <ShoppingCart className="size-11 rounded-2xl p-2 text-gray-400 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sm:size-15 sm:p-3" />
           {cart.length > 0 && (
             <span className="absolute -right-1 top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
-              {cart.length}
+              {count}
             </span>
           )}
         </Link>
-
-        
       </div>
     </nav>
   );

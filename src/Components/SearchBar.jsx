@@ -12,6 +12,7 @@ function SearchBar() {
         <input
           className="w-full h-full border-none bg-transparent focus:outline-none focus:ring-0"
           type="text"
+          aria-label="Search products"
           placeholder="search product"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}

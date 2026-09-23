@@ -1,7 +1,14 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ProductDataContext } from "../Context/ProductContext";
+import OrderSuccess from "../Components/OrderSuccess";
 
 function CustomerInfo() {
+  const { cart, removePurchasedItems } = useContext(ProductDataContext);
+  const [completedItems, setCompletedItems] = useState(null);
+  const route = useLocation();
+  const orderItems = completedItems ?? (route.state?.buyNow ? [route.state.buyNow] : cart);
+  const total = orderItems.reduce((sum, item) => sum + item.productPrice * item.quantity, 0);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [location, setLocation] = useState("");
@@ -15,6 +22,7 @@ function CustomerInfo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!orderItems.length || orderSuccess) return;
 
     let newErrors = {};
 
@@ -44,11 +52,13 @@ function CustomerInfo() {
       return;
     }
 
+    setCompletedItems(orderItems.map((item) => ({ ...item })));
+    removePurchasedItems(orderItems);
     setOrderSuccess(true);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-6 sm:p-6 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-6 sm:p-6 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
 
       <div className="w-full max-w-sm bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden dark:bg-gray-800 dark:border-gray-700">
 
@@ -75,6 +85,11 @@ function CustomerInfo() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-4 sm:p-5">
+          <div className="mb-5 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-900">
+            {orderItems.map((item) => <div key={item.id} className="mb-2 flex justify-between gap-3"><span>{item.productName} × {item.quantity}</span><strong className="whitespace-nowrap">₹{(item.productPrice * item.quantity).toLocaleString("en-IN")}</strong></div>)}
+            <div className="flex justify-between border-t border-gray-200 pt-2 font-bold dark:border-gray-700"><span>Total</span><span>₹{total.toLocaleString("en-IN")}</span></div>
+            {!orderItems.length && <Link to="/" className="mt-2 block text-blue-600">Your cart is empty. Browse products →</Link>}
+          </div>
 
           {/* Name */}
           <div className="mb-3">
@@ -123,7 +138,7 @@ function CustomerInfo() {
           </div>
 
           {/* Location + Pincode */}
-          <div className="grid grid-cols-1 gap-3 mb-3 min-[400px]:grid-cols-2 min-[400px]:gap-2">
+          <div className="grid grid-cols-1 gap-3 mb-3 sm:grid-cols-2 sm:gap-2">
 
             {/* Location */}
             <div>
@@ -199,6 +214,7 @@ function CustomerInfo() {
           {/* Confirm Order */}
           <button
             type="submit"
+            disabled={!orderItems.length || orderSuccess}
             className="w-full py-2.5 rounded-lg text-white font-semibold bg-black hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
           >
             Confirm Order →
@@ -216,46 +232,7 @@ function CustomerInfo() {
         </form>
       </div>
 
-      {/* Order Success Popup */}
-      {orderSuccess && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-
-          <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-5 sm:p-7 text-center animate-[popup_0.4s_ease-out] dark:bg-gray-800">
-
-            <div className="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-5">
-
-              <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center animate-[scale_0.4s_ease-out]">
-
-                <span className="text-white text-4xl font-bold">
-                  ✓
-                </span>
-
-              </div>
-
-            </div>
-
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-              Order Successful!
-            </h2>
-
-            <p className="text-gray-500 mt-2 dark:text-gray-300">
-              Your order has been placed successfully.
-            </p>
-
-            <p className="text-sm text-gray-400 mt-1 dark:text-gray-400">
-              Thank you for shopping with us!
-            </p>
-
-            <Link
-              to="/card"
-              className="block w-full mt-6 py-3 rounded-lg text-center text-white font-semibold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-            >
-              Done
-            </Link>
-
-          </div>
-        </div>
-      )}
+      {orderSuccess && <OrderSuccess />}
 
     </div>
   );
