@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,900&family=Vollkorn:ital,wght@0,500;1,400;1,500&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+    --color-gold: #d4af37;
+    --color-gold-light: #f0c040;
+
+    --font-pacifico: "Pacifico", cursive;
+    --font-playfair: "Playfair Display", serif;
+    --font-vollkorn: "Vollkorn", serif;
+}
+
+body {
+    margin: 0;
+}
