@@ -13,7 +13,8 @@ function RegisterScreen() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const requestedRedirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const redirect = "/" + requestedRedirect.replace(/^\/+/, "");
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -94,7 +95,7 @@ function RegisterScreen() {
                             to={
                                 redirect === "/"
                                     ? "/signin"
-                                    : "/signin?redirect=" + redirect
+                                    : "/signin?redirect=" + encodeURIComponent(redirect)
                             }
                             className="block w-full cursor-pointer rounded-lg border-2 border-black bg-gray-100 p-4 text-center transition-colors duration-300 hover:bg-white"
                         >

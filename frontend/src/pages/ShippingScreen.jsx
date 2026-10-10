@@ -33,6 +33,7 @@ function ShippingScreen() {
                                 type="text"
                                 name="address"
                                 id="address"
+                                required
                                 onChange={e => setAddress(e.target.value)}
                                 className="rounded border border-gray-300 p-2"
                             ></input>
@@ -43,16 +44,23 @@ function ShippingScreen() {
                                 type="text"
                                 name="city"
                                 id="city"
+                                required
                                 onChange={e => setCity(e.target.value)}
                                 className="rounded border border-gray-300 p-2"
                             ></input>
                         </li>
                         <li className="my-4 flex flex-col">
-                            <label htmlFor="postalCode">Postal Code</label>
+                            <label htmlFor="postalCode">PIN Code</label>
                             <input
                                 type="text"
                                 name="postalCode"
                                 id="postalCode"
+                                inputMode="numeric"
+                                autoComplete="postal-code"
+                                pattern="[1-9][0-9]{5}"
+                                maxLength={6}
+                                title="Enter a valid 6-digit PIN code"
+                                required
                                 onChange={e => setPostalCode(e.target.value)}
                                 className="rounded border border-gray-300 p-2"
                             ></input>
@@ -63,6 +71,7 @@ function ShippingScreen() {
                                 type="text"
                                 name="country"
                                 id="country"
+                                required
                                 onChange={e => setCountry(e.target.value)}
                                 className="rounded border border-gray-300 p-2"
                             ></input>

@@ -37,6 +37,7 @@ const userSigninSlice = createSlice({
         builder
             .addCase(signinThunk.pending, () => ({ loading: true }))
             .addCase(signinThunk.fulfilled, (_, action) => ({ loading: false, userInfo: action.payload }))
+            .addCase(registerThunk.fulfilled, (_, action) => ({ loading: false, userInfo: action.payload }))
             .addCase(signinThunk.rejected, (_, action) => ({ loading: false, error: action.payload }));
     }
 });

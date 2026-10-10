@@ -5,14 +5,14 @@ import { savePayment } from "../redux/slices/cartSlice.js";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 function PaymentScreen() {
-    const [paymentMethod, setPaymentMethod] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("Google Pay");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const submitHandler = e => {
         e.preventDefault();
-        dispatch(savePayment(paymentMethod));
+        dispatch(savePayment({ paymentMethod }));
         navigate("/placeorder");
     };
     return (
@@ -28,12 +28,25 @@ function PaymentScreen() {
                             <input
                                 type="radio"
                                 name="paymentMethod"
-                                id="paymentMethod"
+                                id="googlePay"
                                 onChange={e => setPaymentMethod(e.target.value)}
-                                value="paypal"
+                                value="Google Pay"
+                                checked={paymentMethod === "Google Pay"}
                                 className="mb-2 w-fit"
                             ></input>
-                            <label htmlFor="paymentMethod">Paypal</label>
+                            <label htmlFor="googlePay">Google Pay</label>
+                        </li>
+                        <li className="my-4 flex flex-col">
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                id="phonePe"
+                                value="PhonePe"
+                                checked={paymentMethod === "PhonePe"}
+                                onChange={e => setPaymentMethod(e.target.value)}
+                                className="mb-2 w-fit"
+                            />
+                            <label htmlFor="phonePe">PhonePe</label>
                         </li>
                         <li className="my-4">
                             <button

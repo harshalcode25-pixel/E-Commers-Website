@@ -9,8 +9,9 @@
     "npm": ">=10.x"
   },
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node --watch backend/server.js",
+   
+    "dev": "nodemon server.js",
+    "start":"node server.js",
     "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
