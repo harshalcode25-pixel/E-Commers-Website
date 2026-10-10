@@ -11,8 +11,7 @@
   "scripts": {
    
     "dev": "npm run dev --prefix backend",
-    "start":"npm start --prefix backend",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+    "start":"npm start --prefix backend"
   },
   "repository": {
     "type": "git",

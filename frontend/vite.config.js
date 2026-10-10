@@ -7,11 +7,10 @@ export default defineConfig({
     plugins: [react(), tailwindcss()],
     server: {
         port: 3000,
-        // Replaces CRA's "proxy" field in package.json — forwards any
-        // /api/* request from the Vite dev server to the Express backend.
+        // Forward local development API requests to the deployed backend.
         proxy: {
             "/api": {
-                target: "http://localhost:5000",
+                target: "https://e-commers-website-1-micv.onrender.com",
                 changeOrigin: true
             }
         }
