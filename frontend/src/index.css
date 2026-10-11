@@ -15,3 +15,17 @@
 body {
     margin: 0;
 }
+
+/* Allow long product names, addresses and API errors to fit their containers. */
+main {
+    overflow-wrap: anywhere;
+}
+
+@layer base {
+    input:not([type="radio"]):not([type="checkbox"]),
+    textarea,
+    select {
+        min-width: 0;
+        max-width: 100%;
+    }
+}

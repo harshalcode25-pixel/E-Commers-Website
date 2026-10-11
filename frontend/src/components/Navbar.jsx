@@ -19,20 +19,20 @@ function Navbar() {
 
     return (
         <>
-            <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-2 bg-white px-2 py-2 shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
+            <header className="sticky top-0 z-30 flex min-h-20 min-w-0 flex-wrap items-center justify-between gap-2 bg-white px-2 py-2 shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
                 <div className="flex items-center">
-                    <button onClick={() => setMenuOpen(true)} className="p-2" aria-label="Open menu"><Menu size={32} /></button>
+                    <button onClick={() => setMenuOpen(true)} className="p-2" aria-label="Open menu" aria-expanded={menuOpen} aria-controls="category-menu"><Menu size={32} /></button>
                     <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-black">ShopNow</Link>
                 </div>
-                <form onSubmit={searchHandler} className="flex flex-1 items-center justify-center">
-                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products" className="w-full max-w-md rounded-l border p-2" />
-                    <button className="rounded-r bg-black p-2 text-white" aria-label="Search"><Search size={22} /></button>
+                <form onSubmit={searchHandler} className="order-last flex w-full min-w-0 items-center justify-center md:order-none md:w-auto md:flex-1">
+                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products" aria-label="Search products" className="min-w-0 w-full max-w-md rounded-l border p-2" />
+                    <button className="shrink-0 rounded-r bg-black p-2 text-white" aria-label="Search"><Search size={28} /></button>
                 </form>
-                <div className="flex items-center gap-6">
-                    <Link to="/cart" className="hover:text-amber-300"><ShoppingCart size={30} /></Link>
+                <div className="flex shrink-0 items-center gap-2 sm:gap-6">
+                    <Link to="/cart" aria-label="Shopping cart" className="hover:bg-gray-200"><ShoppingCart size={30} /></Link>
                     <div className="relative flex items-center gap-2">
                         {userInfo && (
-                            <span className="max-w-40 truncate font-medium" title={userInfo.name || userInfo.user?.name}>
+                            <span className="hidden max-w-24 truncate font-medium sm:inline md:max-w-40" title={userInfo.name || userInfo.user?.name}>
                                 {userInfo.name || userInfo.user?.name || userInfo.email}
                             </span>
                         )}
@@ -41,14 +41,14 @@ function Navbar() {
                             onClick={() => userInfo ? setAccountMenuOpen(open => !open) : navigate("/signin")}
                             aria-label={userInfo ? "Account options" : "Sign in"}
                             aria-expanded={userInfo ? accountMenuOpen : undefined}
-                            className="rounded p-1 hover:bg-gray-100"
+                            className="rounded p-1 hover:bg-gray-200"
                         >
                             <CircleUserRound size={30} />
                         </button>
                         {userInfo && accountMenuOpen && (
-                            <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+                            <div className="absolute right-0 top-full z-50 mt-2 max-h-[calc(100dvh-5rem)] w-56 max-w-[calc(100vw-1rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
                                 <div className="mb-3 border-b border-gray-200 pb-3">
-                                    <div className="font-semibold">{userInfo.name || userInfo.user?.name || "Account"}</div>
+                                    <div className="break-words font-semibold">{userInfo.name || userInfo.user?.name || "Account"}</div>
                                     <div className="break-all text-sm text-gray-600">{userInfo.email || userInfo.user?.email}</div>
                                 </div>
                                 <button
@@ -68,7 +68,7 @@ function Navbar() {
                 </div>
             </header>
             {menuOpen && <div className="fixed inset-0 z-30 bg-black/40" onClick={() => setMenuOpen(false)} />}
-            <aside className={`fixed top-0 left-0 z-40 h-full w-72 bg-black/95 p-4 text-white transition-transform duration-500 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            <aside id="category-menu" inert={!menuOpen} aria-label="Categories" className={`fixed top-0 left-0 z-40 h-dvh w-72 max-w-[calc(100vw-2rem)] overflow-y-auto bg-black/95 p-4 text-white transition-transform duration-500 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
                 <button onClick={() => setMenuOpen(false)} className="float-right p-1" aria-label="Close menu"><X size={26} /></button>
                 <h3 className="border-b border-white/40 py-4 text-2xl">Categories</h3>
                 <p className="mt-6">Mens</p><p>Women</p><p>Unisex</p><p>Children</p>

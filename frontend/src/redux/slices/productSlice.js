@@ -4,8 +4,8 @@ import { getErrorMessage } from "../utils.js";
 
 export const listProducts = createAsyncThunk("products/list", async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get("/api/products");
-        return data;
+        const response = await axios.get("/api/products");
+        return response.data;
     } catch (error) {
         return rejectWithValue(getErrorMessage(error));
     }
@@ -13,8 +13,8 @@ export const listProducts = createAsyncThunk("products/list", async (_, { reject
 
 export const detailsProduct = createAsyncThunk("products/details", async (productId, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get(`/api/products/${productId}`);
-        return data;
+        const response = await axios.get(`/api/products/${productId}`);
+        return response.data;
     } catch (error) {
         return rejectWithValue(getErrorMessage(error));
     }
@@ -22,12 +22,18 @@ export const detailsProduct = createAsyncThunk("products/details", async (produc
 
 export const saveProduct = createAsyncThunk("products/save", async (product, { getState, rejectWithValue }) => {
     try {
-        const { userSignin: { userInfo } } = getState();
+        const state = getState();
+        const userInfo = state.userSignin.userInfo;
         const options = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = product._id
-            ? await axios.put(`/api/products/${product._id}`, product, options)
-            : await axios.post("/api/products", product, options);
-        return data;
+        let response;
+        if (product._id) {
+            // Update an existing product.
+            response = await axios.put(`/api/products/${product._id}`, product, options);
+        } else {
+            // Create a new product.
+            response = await axios.post("/api/products", product, options);
+        }
+        return response.data;
     } catch (error) {
         return rejectWithValue(getErrorMessage(error));
     }
@@ -35,26 +41,46 @@ export const saveProduct = createAsyncThunk("products/save", async (product, { g
 
 export const deleteProduct = createAsyncThunk("products/delete", async (productId, { getState, rejectWithValue }) => {
     try {
-        const { userSignin: { userInfo } } = getState();
-        const { data } = await axios.delete(`/api/products/${productId}`, {
+        const state = getState();
+        const userInfo = state.userSignin.userInfo;
+        const response = await axios.delete(`/api/products/${productId}`, {
             headers: { Authorization: `Bearer ${userInfo.token}` }
         });
-        return data;
+        return response.data;
     } catch (error) {
         return rejectWithValue(getErrorMessage(error));
     }
 });
 
-// These reducers update Redux when each product request starts, succeeds, or fails.
+// createAsyncThunk sends three actions for each API request:
+// pending = started, fulfilled = succeeded, rejected = failed.
+// extraReducers handles these actions; action.payload contains data or an error.
+// Returning an object replaces this slice state, clearing old request results.
 const productListSlice = createSlice({
     name: "productList",
     initialState: { products: [] },
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(listProducts.pending, () => ({ loading: true, products: [] }))
-            .addCase(listProducts.fulfilled, (_, action) => ({ loading: false, products: action.payload }))
-            .addCase(listProducts.rejected, (_, action) => ({ loading: false, error: action.payload, products: [] }));
+            .addCase(listProducts.pending, (state, action) => {
+                return {
+                    loading: true,
+                    products: [],
+                };
+            })
+            .addCase(listProducts.fulfilled, (state, action) => {
+                return {
+                    loading: false,
+                    products: action.payload,
+                };
+            })
+            .addCase(listProducts.rejected, (state, action) => {
+                return {
+                    loading: false,
+                    error: action.payload,
+                    products: [],
+                };
+            });
     }
 });
 
@@ -64,9 +90,25 @@ const productDetailsSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(detailsProduct.pending, () => ({ loading: true, product: { reviews: [] } }))
-            .addCase(detailsProduct.fulfilled, (_, action) => ({ loading: false, product: action.payload }))
-            .addCase(detailsProduct.rejected, (_, action) => ({ loading: false, error: action.payload, product: { reviews: [] } }));
+            .addCase(detailsProduct.pending, (state, action) => {
+                return {
+                    loading: true,
+                    product: { reviews: [] },
+                };
+            })
+            .addCase(detailsProduct.fulfilled, (state, action) => {
+                return {
+                    loading: false,
+                    product: action.payload,
+                };
+            })
+            .addCase(detailsProduct.rejected, (state, action) => {
+                return {
+                    loading: false,
+                    error: action.payload,
+                    product: { reviews: [] },
+                };
+            });
     }
 });
 
@@ -76,9 +118,24 @@ const productSaveSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(saveProduct.pending, () => ({ loading: true }))
-            .addCase(saveProduct.fulfilled, (_, action) => ({ loading: false, success: true, product: action.payload }))
-            .addCase(saveProduct.rejected, (_, action) => ({ loading: false, error: action.payload }));
+            .addCase(saveProduct.pending, (state, action) => {
+                return {
+                    loading: true,
+                };
+            })
+            .addCase(saveProduct.fulfilled, (state, action) => {
+                return {
+                    loading: false,
+                    success: true,
+                    product: action.payload,
+                };
+            })
+            .addCase(saveProduct.rejected, (state, action) => {
+                return {
+                    loading: false,
+                    error: action.payload,
+                };
+            });
     }
 });
 
@@ -88,9 +145,24 @@ const productDeleteSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(deleteProduct.pending, () => ({ loading: true }))
-            .addCase(deleteProduct.fulfilled, (_, action) => ({ loading: false, success: true, product: action.payload }))
-            .addCase(deleteProduct.rejected, (_, action) => ({ loading: false, error: action.payload }));
+            .addCase(deleteProduct.pending, (state, action) => {
+                return {
+                    loading: true,
+                };
+            })
+            .addCase(deleteProduct.fulfilled, (state, action) => {
+                return {
+                    loading: false,
+                    success: true,
+                    product: action.payload,
+                };
+            })
+            .addCase(deleteProduct.rejected, (state, action) => {
+                return {
+                    loading: false,
+                    error: action.payload,
+                };
+            });
     }
 });
 

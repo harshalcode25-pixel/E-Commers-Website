@@ -27,10 +27,10 @@ function CartScreen() {
     };
 
     return (
-        <div className="relative m-4 flex min-h-screen flex-wrap items-start">
-            <div className="flex-[3_1_60rem]">
-                <ul className="list-none p-4">
-                    <li className="mb-4 flex items-end justify-between border-b border-gray-500 pb-4">
+        <div className="relative m-3 flex min-h-screen min-w-0 flex-wrap content-start items-start gap-y-4 sm:m-4">
+            <div className="min-w-0 max-w-full flex-[3_1_60rem]">
+                <ul className="list-none p-1 sm:p-4">
+                    <li className="mb-4 flex flex-wrap items-end justify-between gap-2 border-b border-gray-500 pb-4">
                         <h1 className="text-2xl">Your Cart</h1>
                         <div>Price</div>
                     </li>
@@ -42,16 +42,16 @@ function CartScreen() {
                         cartItems.map(item => (
                             <li
                                 key={item.product}
-                                className="mb-4 flex items-end justify-between border-b border-gray-500 pb-4"
+                                className="mb-4 flex flex-wrap items-end justify-between gap-2 border-b border-gray-500 pb-4"
                             >
-                                <div className="flex-[1_1]">
+                                <div className="w-20 shrink-0 sm:w-auto sm:flex-[1_1]">
                                     <img
-                                        className="max-h-40 max-w-40"
+                                        className="h-auto max-h-24 max-w-full object-contain sm:max-h-40 sm:max-w-40"
                                         src={item.image}
                                         alt="product"
                                     />
                                 </div>
-                                <div className="flex-[8_1]">
+                                <div className="min-w-0 flex-[1_1_10rem] sm:flex-[8_1]">
                                     <div>
                                         <Link
                                             to={"/product/" + item.product}
@@ -83,13 +83,13 @@ function CartScreen() {
                                             onClick={() =>
                                                 removeFromCartHandler(item.product)
                                             }
-                                            className="float-right mr-20 w-40 cursor-pointer rounded-lg border-2 border-black bg-gold p-1 transition-colors duration-300 hover:bg-white"
+                                            className="mt-2 w-full cursor-pointer sm:float-right sm:mt-0 sm:mr-4 sm:w-32 xl:mr-20 xl:w-40 rounded-lg border-2 border-black bg-gold p-1 transition-colors duration-300 hover:bg-white"
                                         >
                                             Delete
                                         </button>
                                     </div>
                                 </div>
-                                <div className="flex-[1_1] text-right text-2xl">
+                                <div className="ml-auto min-w-0 shrink-0 whitespace-nowrap text-right text-lg sm:text-2xl">
                                     ₹{Number(item.price).toLocaleString("en-IN")}
                                 </div>
                             </li>
@@ -97,7 +97,7 @@ function CartScreen() {
                     )}
                 </ul>
             </div>
-            <div className="flex-[1_1_20rem] rounded-lg bg-[#f8f8f8] p-4">
+            <div className="min-w-0 max-w-full flex-[1_1_20rem] rounded-lg bg-[#f8f8f8] p-4">
                 <h3 className="text-xl">
                     Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items)
                     : ₹{cartItems.reduce((a, c) => a + c.price * c.qty, 0).toLocaleString("en-IN")}

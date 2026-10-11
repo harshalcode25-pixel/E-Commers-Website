@@ -33,27 +33,27 @@ function ProductScreen() {
             ) : error ? (
                 <div className="p-8 text-center text-xl text-red-600">{error}</div>
             ) : (
-                <div className="relative flex min-h-screen flex-wrap items-start p-4 text-lg">
-                    <div className="flex flex-[1_1_30rem] items-center justify-center">
+                <div className="relative flex min-h-screen min-w-0 flex-wrap content-start items-start gap-y-6 p-4 text-base sm:text-lg">
+                    <div className="flex min-w-0 max-w-full flex-[1_1_30rem] items-center justify-center">
                         <img
-                            className="w-4/5 max-w-lg transition-all duration-500 hover:max-w-xl"
+                            className="h-auto w-4/5 max-w-lg object-contain transition-all duration-500 hover:max-w-xl"
                             src={product.image}
                             alt="product"
                         ></img>
                     </div>
-                    <div className="h-full flex-[1_1_30rem] px-8 lg:px-24">
+                    <div className="h-full min-w-0 max-w-full flex-[1_1_30rem] px-0 sm:px-8 lg:px-24">
                         <ul className="list-none p-0">
                             <li className="my-4">
                                 <h4>{product.brand}</h4>
                             </li>
                             <li className="my-4">
-                                <h1 className="font-vollkorn text-3xl">{product.name}</h1>
+                                <h1 className="font-vollkorn text-2xl sm:text-3xl">{product.name}</h1>
                             </li>
-                            <li className="my-4 mt-20 text-xl">
+                            <li className="my-4 mt-8 text-lg sm:mt-20 sm:text-xl">
                                 {product.rating} Stars ({product.numReviews}{" "}
                                 Reviews)
                             </li>
-                            <li className="mb-16 my-4 text-base text-gray-600">
+                            <li className="mb-8 my-4 text-base sm:mb-16 text-gray-600">
                                 ₹<b>{Number(product.price).toLocaleString("en-IN")}</b>
                             </li>
                             <li className="my-4">

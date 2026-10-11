@@ -16,10 +16,10 @@ import PlaceOrderScreen from "./pages/PlaceOrderScreen";
 function App() {
     return (
         <BrowserRouter>
-            <div className="grid min-h-screen grid-rows-[5rem_1fr_5rem]">
+            <div className="grid min-h-screen min-w-0 grid-rows-[auto_1fr_auto]">
                 <Navbar />
 
-                <main className="relative min-h-[100vh]">
+                <main className="relative min-h-[100vh] min-w-0">
                     <Routes>
                         <Route path="/products" element={<ProductsScreen />} />
                         <Route path="/shipping" element={<ShippingScreen />} />
@@ -34,7 +34,7 @@ function App() {
                     </Routes>
                 </main>
 
-                <footer className="flex items-center justify-center bg-white text-black shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
+                <footer className="flex min-h-20 items-center justify-center bg-white px-4 py-4 text-center text-black shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
                     All right reserved
                 </footer>
             </div>

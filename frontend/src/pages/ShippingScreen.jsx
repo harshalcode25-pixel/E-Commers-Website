@@ -21,9 +21,9 @@ function ShippingScreen() {
     return (
         <div>
             <CheckoutSteps step1 step2></CheckoutSteps>
-            <div className="flex min-h-[90vh] items-center justify-center">
-                <form onSubmit={submitHandler}>
-                    <ul className="flex w-96 flex-col rounded-lg border-2 border-gray-100 p-8 list-none">
+            <div className="flex min-h-[90vh] items-center justify-center px-4 py-6 sm:px-0">
+                <form onSubmit={submitHandler} className="w-full min-w-0 max-w-96">
+                    <ul className="flex w-full min-w-0 flex-col rounded-lg border-2 border-gray-100 p-4 list-none sm:p-8">
                         <li className="my-4">
                             <h2 className="text-2xl">Shipping</h2>
                         </li>
@@ -35,7 +35,7 @@ function ShippingScreen() {
                                 id="address"
                                 required
                                 onChange={e => setAddress(e.target.value)}
-                                className="rounded border border-gray-300 p-2"
+                                className="w-full min-w-0 rounded border border-gray-300 p-2"
                             ></input>
                         </li>
                         <li className="my-4 flex flex-col">
@@ -46,7 +46,7 @@ function ShippingScreen() {
                                 id="city"
                                 required
                                 onChange={e => setCity(e.target.value)}
-                                className="rounded border border-gray-300 p-2"
+                                className="w-full min-w-0 rounded border border-gray-300 p-2"
                             ></input>
                         </li>
                         <li className="my-4 flex flex-col">
@@ -62,7 +62,7 @@ function ShippingScreen() {
                                 title="Enter a valid 6-digit PIN code"
                                 required
                                 onChange={e => setPostalCode(e.target.value)}
-                                className="rounded border border-gray-300 p-2"
+                                className="w-full min-w-0 rounded border border-gray-300 p-2"
                             ></input>
                         </li>
                         <li className="my-4 flex flex-col">
@@ -73,7 +73,7 @@ function ShippingScreen() {
                                 id="country"
                                 required
                                 onChange={e => setCountry(e.target.value)}
-                                className="rounded border border-gray-300 p-2"
+                                className="w-full min-w-0 rounded border border-gray-300 p-2"
                             ></input>
                         </li>
 

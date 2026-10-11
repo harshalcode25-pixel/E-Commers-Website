@@ -70,11 +70,11 @@ function ProductsScreen() {
         dispatch(deleteProduct(product._id));
     };
 
-    const inputClass = "rounded border border-gray-300 p-2";
+    const inputClass = "w-full min-w-0 rounded border border-gray-300 p-2";
 
     return (
         <div className="m-4">
-            <div className="flex items-start justify-between">
+            <div className="flex flex-wrap items-start justify-between gap-3">
                 <h3 className="text-2xl">Products</h3>
                 <button
                     className="cursor-pointer rounded-lg border-2 border-black bg-gold-light px-4 py-2 transition-colors duration-300 hover:bg-white"
@@ -85,8 +85,8 @@ function ProductsScreen() {
             </div>
             {modalVisible && (
                 <div className="my-4 flex justify-center">
-                    <form onSubmit={submitHandler}>
-                        <ul className="flex w-96 flex-col rounded-lg border-2 border-gray-100 p-8 list-none">
+                    <form onSubmit={submitHandler} className="w-full min-w-0 max-w-96">
+                        <ul className="flex w-full min-w-0 flex-col rounded-lg border-2 border-gray-100 p-4 list-none sm:p-8">
                             <li className="my-4">
                                 <h2 className="text-2xl">
                                     {id ? "Update" : "Create"} Product
@@ -194,8 +194,8 @@ function ProductsScreen() {
                 </div>
             )}
 
-            <div className="mt-4">
-                <table className="w-full">
+            <div className="mt-4 max-w-full overflow-x-auto" role="region" aria-label="Products table" tabIndex={0}>
+                <table className="w-full min-w-[48rem]">
                     <thead>
                         <tr>
                             <th className="text-left">ID</th>

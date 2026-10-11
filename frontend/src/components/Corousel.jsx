@@ -64,7 +64,7 @@ function Corousel() {
     }, []);
 
     return (
-        <div className="relative h-125 overflow-hidden font-playfair">
+        <div className="relative aspect-video w-full min-w-0 max-w-full overflow-hidden font-playfair sm:aspect-auto sm:h-96 lg:h-125">
             {slides.map((slide, i) => (
                 <div
                     key={i}
@@ -78,14 +78,14 @@ function Corousel() {
                         src={slide.image}
                         alt=""
                     />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 text-center text-white">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 px-14 text-center text-white sm:px-16">
                         {slide.heading && (
-                            <h1 className="text-5xl font-normal drop-shadow-[1px_1px_2px_black] sm:text-7xl">
+                            <h1 className="text-[clamp(1.5rem,6vw,2rem)] leading-tight font-normal drop-shadow-[1px_1px_2px_black] sm:text-5xl lg:text-7xl">
                                 {slide.heading}
                             </h1>
                         )}
                         {slide.text && (
-                            <div className="text-2xl drop-shadow-[2px_2px_2px_black] sm:text-3xl">
+                            <div className="text-[clamp(0.875rem,4vw,1.25rem)] drop-shadow-[2px_2px_2px_black] sm:text-3xl">
                                 {slide.text}
                             </div>
                         )}

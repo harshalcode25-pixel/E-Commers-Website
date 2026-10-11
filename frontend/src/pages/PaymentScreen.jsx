@@ -18,9 +18,9 @@ function PaymentScreen() {
     return (
         <div>
             <CheckoutSteps step1 step2 step3></CheckoutSteps>
-            <div className="flex min-h-[90vh] items-center justify-center">
-                <form onSubmit={submitHandler}>
-                    <ul className="flex w-96 flex-col rounded-lg border-2 border-gray-100 p-8 list-none">
+            <div className="flex min-h-[90vh] items-center justify-center px-4 py-6 sm:px-0">
+                <form onSubmit={submitHandler} className="w-full min-w-0 max-w-96">
+                    <ul className="flex w-full min-w-0 flex-col rounded-lg border-2 border-gray-100 p-4 list-none sm:p-8">
                         <li className="my-4">
                             <h2 className="text-2xl">Payment</h2>
                         </li>

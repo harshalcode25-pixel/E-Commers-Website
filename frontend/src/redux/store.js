@@ -9,17 +9,23 @@ import {
 import { userSigninReducer, userRegisterReducer } from "./slices/userSlice.js";
 import { cartReducer } from "./slices/cartSlice.js";
 
-const readCookie = name => {
+function readCookie(name) {
     try {
-        return JSON.parse(Cookies.get(name) || "null");
+        const savedValue = Cookies.get(name);
+        if (!savedValue) {
+            return null;
+        }
+        return JSON.parse(savedValue);
     } catch {
+        // Ignore cookies that do not contain valid JSON.
         return null;
     }
-};
+}
 
 // Redux keeps the app state; cookies restore the cart and login after refresh.
 const store = configureStore({
     reducer: {
+        // These names match the state paths read by useSelector in the pages.
         cart: cartReducer,
         userSignin: userSigninReducer,
         userRegister: userRegisterReducer,
@@ -29,6 +35,7 @@ const store = configureStore({
         productDelete: productDeleteReducer
     },
     preloadedState: {
+        // Restore saved data before React first reads the store.
         cart: { cartItems: readCookie("cartItems") || [], shipping: {}, payment: {} },
         userSignin: { userInfo: readCookie("userInfo") }
     }
