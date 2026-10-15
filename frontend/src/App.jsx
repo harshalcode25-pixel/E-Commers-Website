@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
+
 import HomeScreen from "./pages/HomeScreen";
 import ProductScreen from "./pages/ProductScreen";
 import CartScreen from "./pages/CartScreen";
@@ -11,6 +12,7 @@ import ProductsScreen from "./pages/ProductsScreen";
 import ShippingScreen from "./pages/ShippingScreen";
 import PaymentScreen from "./pages/PaymentScreen";
 import PlaceOrderScreen from "./pages/PlaceOrderScreen";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -34,11 +36,13 @@ function App() {
                     </Routes>
                 </main>
 
-                <footer className="flex min-h-20 items-center justify-center bg-white px-4 py-4 text-center text-black shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
-                    All right reserved
-                </footer>
             </div>
+
+             <Footer/>
+             
         </BrowserRouter>
+
+        
     );
 }
 

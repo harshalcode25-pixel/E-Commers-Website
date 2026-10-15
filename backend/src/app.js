@@ -1,9 +1,17 @@
 const express = require("express");
+const cors = require("cors");
 const cookie = require("cookie-parser");
 const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
 
 const app= express();
+// Allow browser requests from the local and deployed frontend.
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://e-commers-website-rust.vercel.app"
+    ]
+}));
 app.use(cookie());
 
 

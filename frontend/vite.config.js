@@ -6,14 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
     plugins: [react(), tailwindcss()],
     server: {
-        port: 3000,
-        // Forward local development API requests to the deployed backend.
-        proxy: {
-            "/api": {
-                target: "https://e-commers-website-1-micv.onrender.com",
-                changeOrigin: true
-            }
-        }
+        port: 3000
     },
     build: {
         outDir: "build" // keep the same output folder the backend already expects
