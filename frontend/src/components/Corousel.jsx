@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {ChevronRight,ChevronLeft} from "lucide-react"
 
@@ -45,33 +45,73 @@ const slides = [
     }
 ];
 
+// Copies at each end let the carousel slide smoothly in either direction.
+const carouselSlides = [slides[slides.length - 1], ...slides, slides[0]];
+
 function Corousel() {
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(1);
+    const [animate, setAnimate] = useState(true);
+    const moving = useRef(false);
+    const activeSlide = (index - 1 + slides.length) % slides.length;
+
+    const moveSlide = (direction) => {
+        if (moving.current) return;
+        moving.current = true;
+        setAnimate(true);
+        setIndex(current => current + direction);
+    };
 
     const next = () => {
-        setIndex(i => (i + 1) % slides.length);
+        moveSlide(1);
     };
     const prev = () => {
-        setIndex(i => (i - 1 + slides.length) % slides.length);
+        moveSlide(-1);
+    };
+
+    const goToSlide = (slideIndex) => {
+        if (moving.current || slideIndex === activeSlide) return;
+        moving.current = true;
+        setAnimate(true);
+        setIndex(slideIndex + 1);
+    };
+
+    const handleSlideEnd = (event) => {
+        if (event.target !== event.currentTarget || event.propertyName !== "transform") return;
+
+        // Switch from the copy to the identical real slide without animation.
+        if (index === slides.length + 1) {
+            setAnimate(false);
+            setIndex(1);
+        } else if (index === 0) {
+            setAnimate(false);
+            setIndex(slides.length);
+        }
+        moving.current = false;
     };
 
     useEffect(() => {
-        // Move to the next slide every five seconds and stop the timer on unmount.
-        const timer = setTimeout(() => {
-            setIndex(currentIndex => (currentIndex + 1) % slides.length);
-        }, 5000);
-        return () => clearTimeout(timer);
+        // Move to the next slide every four seconds.
+        const timer = setInterval(() => {
+            if (moving.current) return;
+            moving.current = true;
+            setAnimate(true);
+            setIndex(currentIndex => currentIndex + 1);
+        }, 4000);
+        return () => clearInterval(timer);
     }, []);
 
     return (
         <div className="relative aspect-video w-full min-w-0 max-w-full overflow-hidden font-playfair sm:aspect-auto sm:h-96 lg:h-125">
-            {slides.map((slide, i) => (
+            <div
+                className={"absolute inset-0 flex " + (animate ? "transition-transform duration-700 ease-in-out motion-reduce:duration-1" : "transition-none")}
+                style={{ transform: `translateX(-${index * 100}%)` }}
+                onTransitionEnd={handleSlideEnd}
+            >
+                {carouselSlides.map((slide, i) => (
                 <div
                     key={i}
-                    className={
-                        "absolute inset-0 transition-opacity duration-700 " +
-                        (i === index ? "opacity-100" : "pointer-events-none opacity-0")
-                    }
+                    aria-hidden={i !== index}
+                    className="relative h-full w-full shrink-0"
                 >
                     <img
                         className="h-full w-full object-cover"
@@ -91,9 +131,11 @@ function Corousel() {
                         )}
                     </div>
                 </div>
-            ))}
+                ))}
+            </div>
 
             <button
+                type="button"
                 onClick={prev}
                 aria-label="Previous slide"
                 className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/30 p-2 text-white hover:bg-black/50"
@@ -101,6 +143,7 @@ function Corousel() {
                 <span > <ChevronLeft size={30} /> </span>
             </button>
             <button
+                type="button"
                 onClick={next}
                 aria-label="Next slide"
                 className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/30 p-2 text-white  hover:bg-black/50"
@@ -111,12 +154,14 @@ function Corousel() {
             <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
                 {slides.map((_, i) => (
                     <button
+                        type="button"
                         key={i}
                         aria-label={"Go to slide " + (i + 1)}
-                        onClick={() => setIndex(i)}
+                        aria-current={i === activeSlide ? "true" : undefined}
+                        onClick={() => goToSlide(i)}
                         className={
                             "h-2 w-2 cursor-pointer rounded-full " +
-                            (i === index ? "bg-white" : "bg-white/40")
+                            (i === activeSlide ? "bg-white" : "bg-white/40")
                         }
                     />
                 ))}

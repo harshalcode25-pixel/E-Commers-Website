@@ -28,7 +28,7 @@ const createProduct = async (req, res) => {
   try {
     const { name,image,brand, price, category,description, countInStock,rating ,numReviews} = req.body;
 
-    if (!name || !price) {
+    if (!name || price == null) {
       return res.status(400).json({ message: "Name and price are required" });
     }
 
