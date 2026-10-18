@@ -21,7 +21,7 @@ function App() {
             <div className="grid min-h-screen min-w-0 grid-rows-[auto_1fr_auto]">
                 <Navbar />
 
-                <main className="relative min-h-[100vh] min-w-0">
+                <main className="relative min-h-screen min-w-0">
                     <Routes>
                         <Route path="/products" element={<ProductsScreen />} />
                         <Route path="/shipping" element={<ShippingScreen />} />
