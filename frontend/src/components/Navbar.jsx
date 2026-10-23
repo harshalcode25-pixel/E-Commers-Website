@@ -19,16 +19,17 @@ function Navbar() {
 
     return (
         <>
-            <header className="sticky top-0 z-30 flex min-h-20 min-w-0 flex-wrap items-center justify-between gap-2 bg-white px-2 py-2 shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)]">
-                <div className="flex items-center">
+            <header className="sticky top-0 z-30 grid min-h-20 min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 bg-white px-2 py-2 shadow-[5px_0.1px_10px_rgba(212,175,55,0.8)] lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)_minmax(0,1fr)]">
+                <div className="flex min-w-0 items-center">
                     <button onClick={() => setMenuOpen(true)} className="p-2" aria-label="Open menu" aria-expanded={menuOpen} aria-controls="category-menu"><Menu size={32} /></button>
                     <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-black">ShopNow</Link>
                 </div>
-                <form onSubmit={searchHandler} className="order-last flex w-full min-w-0 items-center justify-center md:order-none md:w-auto md:flex-1">
-                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products" aria-label="Search products" className="min-w-0 w-full max-w-md rounded-l border p-2" />
+                <form onSubmit={searchHandler} className="col-span-2 row-start-2 mx-auto flex w-full min-w-0 max-w-md items-center lg:col-span-1 lg:col-start-2 lg:row-start-1">
+                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products" aria-label="Search products" className="min-w-0 w-full flex-1 rounded-l border p-2" />
                     <button className="shrink-0 rounded-r bg-black p-2 text-white" aria-label="Search"><Search size={28} /></button>
                 </form>
-                <div className="flex shrink-0 items-center gap-2 sm:gap-6">
+                <div className="col-start-2 row-start-1 flex min-w-0 items-center justify-self-end gap-2 sm:gap-6 lg:col-start-3">
+                   
                     <Link to="/cart" aria-label="Shopping cart" className="hover:bg-gray-200"><ShoppingCart size={30} /></Link>
                     <div className="relative flex items-center gap-2">
                         {userInfo && (
@@ -48,9 +49,19 @@ function Navbar() {
                         {userInfo && accountMenuOpen && (
                             <div className="absolute right-0 top-full z-50 mt-2 max-h-[calc(100dvh-5rem)] w-56 max-w-[calc(100vw-1rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
                                 <div className="mb-3 border-b border-gray-200 pb-3">
-                                    <div className="break-words font-semibold">{userInfo.name || userInfo.user?.name || "Account"}</div>
+                                    <div className="wrap-break-words font-semibold">{userInfo.name || userInfo.user?.name || "Account"}</div>
                                     <div className="break-all text-sm text-gray-600">{userInfo.email || userInfo.user?.email}</div>
                                 </div>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setAccountMenuOpen(false);
+                                        navigate("/dashboard");
+                                    }}
+                                    className="mb-1 flex w-full items-center gap-2 rounded p-2 text-left hover:bg-gray-100"
+                                >
+                                    <CircleUserRound size={18} /> My dashboard
+                                </button>
                                 <button
                                     type="button"
                                     onClick={() => {

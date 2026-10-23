@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 
 
 import HomeScreen from "./pages/HomeScreen";
+import DashboardScreen from "./pages/DashboardScreen";
 import ProductScreen from "./pages/ProductScreen";
 import CartScreen from "./pages/CartScreen";
 import SigninScreen from "./pages/SigninScreen";
@@ -18,11 +19,12 @@ import Footer from "./components/Footer";
 function App() {
     return (
         <BrowserRouter>
-            <div className="grid min-h-screen min-w-0 grid-rows-[auto_1fr_auto]">
+            <div className="grid min-w-0 grid-rows-[auto_auto] lg:min-h-screen lg:grid-rows-[auto_1fr_auto]">
                 <Navbar />
 
-                <main className="relative min-h-screen min-w-0">
+                <main className="relative min-w-0 lg:min-h-screen">
                     <Routes>
+                        <Route path="/dashboard" element={<DashboardScreen />} />
                         <Route path="/products" element={<ProductsScreen />} />
                         <Route path="/shipping" element={<ShippingScreen />} />
                         <Route path="/payment" element={<PaymentScreen />} />
@@ -37,8 +39,7 @@ function App() {
                 </main>
 
             </div>
-
-             <Footer/>
+            <Footer />
              
         </BrowserRouter>
 

@@ -13,7 +13,7 @@ function RegisterScreen() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const requestedRedirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const requestedRedirect = new URLSearchParams(location.search).get("redirect") || "/dashboard";
     const redirect = "/" + requestedRedirect.replace(/^\/+/, "");
 
     useEffect(() => {

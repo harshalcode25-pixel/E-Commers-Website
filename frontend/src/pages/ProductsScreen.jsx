@@ -74,7 +74,7 @@ function ProductsScreen() {
 
     return (
         <div className="m-4">
-            <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="flex flex-wrap items-start justify-between gap-3 bg-amber-600">
                 <h3 className="text-2xl">Products</h3>
                 <button
                     className="cursor-pointer rounded-lg border-2 border-black bg-gold-light px-4 py-2 transition-colors duration-300 hover:bg-white"
