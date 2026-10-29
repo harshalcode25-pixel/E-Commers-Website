@@ -9,6 +9,8 @@ function Navbar() {
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
     const [search, setSearch] = useState("");
     const userInfo = useSelector(state => state.userSignin.userInfo);
+    const cartItems = useSelector(state => state.cart.cartItems);
+    const cartCount = cartItems.reduce((total, item) => total + Number(item.qty || 0), 0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -30,7 +32,14 @@ function Navbar() {
                 </form>
                 <div className="col-start-2 row-start-1 flex min-w-0 items-center justify-self-end gap-2 sm:gap-6 lg:col-start-3">
                    
-                    <Link to="/cart" aria-label="Shopping cart" className="hover:bg-gray-200"><ShoppingCart size={30} /></Link>
+                    <Link to="/cart" aria-label="Shopping cart" className="relative rounded p-1 hover:bg-gray-200">
+                        <ShoppingCart size={30} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs font-bold text-white">
+                                {cartCount}
+                            </span>
+                        )}
+                    </Link>
                     <div className="relative flex items-center gap-2">
                         {userInfo && (
                             <span className="hidden max-w-24 truncate font-medium sm:inline md:max-w-40" title={userInfo.name || userInfo.user?.name}>

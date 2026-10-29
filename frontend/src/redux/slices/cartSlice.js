@@ -1,70 +1,96 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import Cookie from "js-cookie";
 
-const addToCartThunk = createAsyncThunk("cart/addItem", async ({ productId, qty }, { rejectWithValue }) => {
-    try {
-        // Load product details from the backend before saving it in the cart.
-        const { data } = await Axios.get(`/api/products/${productId}`);
-        return {
-            product: data._id,
-            name: data.name,
-            image: data.image,
-            price: data.price,
-            countInStock: data.countInStock,
-            qty: qty
-        };
-    } catch (error) {
-        return rejectWithValue(error.response?.data?.message || error.message);
-    }
-});
+// -------------------------------------------------------------
+// 1. Initial State: Starting data for the cart
+// -------------------------------------------------------------
+const initialState = {
+    cartItems: [],
+    shipping: {},
+    payment: {}
+};
 
+// -------------------------------------------------------------
+// 2. Async Thunk: Fetch product details from the API and add to cart
+// Note for beginners: createAsyncThunk takes one argument (payload).
+// We pass an object: { productId, qty }
+// -------------------------------------------------------------
+export const addToCart = createAsyncThunk(
+    "cart/addToCart",
+    async (arg, { rejectWithValue }) => {
+        try {
+            // Support passing either { productId, qty } or a plain productId
+            const productId = typeof arg === "object" ? arg.productId : arg;
+            const qty = typeof arg === "object" ? (arg.qty ?? 1) : 1;
+
+            // Fetch the latest product info from the server
+            const { data } = await Axios.get(`/api/products/${productId}`);
+
+            // Return the item formatted for our cart state
+            return {
+                product: data._id,
+                name: data.name,
+                image: data.image,
+                price: data.price,
+                countInStock: data.countInStock,
+                qty: Number(qty)
+            };
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message);
+        }
+    }
+);
+
+// -------------------------------------------------------------
+// 3. Cart Slice: Handles cart actions and state updates
+// -------------------------------------------------------------
 const cartSlice = createSlice({
     name: "cart",
-    initialState: { cartItems: [], shipping: {}, payment: {} },
+    initialState,
     reducers: {
-        removeFromCart(state, action) {
-            state.cartItems = state.cartItems.filter(item => item.product !== action.payload);
+        // Remove an item from the cart
+        removeFromCart: (state, action) => {
+            const productId = action.payload;
+            state.cartItems = state.cartItems.filter(item => item.product !== productId);
+            // Save updated cart to cookies so it survives a page refresh
+            Cookie.set("cartItems", JSON.stringify(state.cartItems));
         },
-        saveShipping(state, action) {
+        // Save shipping address
+        saveShipping: (state, action) => {
             state.shipping = action.payload;
         },
-        savePayment(state, action) {
+        // Save payment method (e.g. PayPal, Stripe, etc.)
+        savePayment: (state, action) => {
             state.payment = action.payload;
         }
     },
+    // extraReducers handles the actions automatically dispatched by createAsyncThunk
     extraReducers: builder => {
-        builder.addCase(addToCartThunk.fulfilled, (state, action) => {
-            const index = state.cartItems.findIndex(item => item.product === action.payload.product);
-            if (index < 0) {
-                // Add a product that is not already in the cart.
-                state.cartItems.push(action.payload);
+        // When addToCart succeeds:
+        builder.addCase(addToCart.fulfilled, (state, action) => {
+            const newItem = action.payload;
+            const existItem = state.cartItems.find(item => item.product === newItem.product);
+
+            if (existItem) {
+                // If item is already in cart, update its quantity
+                state.cartItems = state.cartItems.map(item =>
+                    item.product === existItem.product ? newItem : item
+                );
             } else {
-                // Replace the existing item with its updated quantity.
-                state.cartItems[index] = action.payload;
+                // If item is not in cart yet, add it
+                state.cartItems.push(newItem);
             }
+
+            // Save updated cart to cookies
+            Cookie.set("cartItems", JSON.stringify(state.cartItems));
         });
     }
 });
 
-const { removeFromCart: removeCartItem } = cartSlice.actions;
-export const { saveShipping, savePayment } = cartSlice.actions;
-// A thunk is a function dispatched to Redux. It can read state and send actions.
-// Save cookies after updating Redux so the cart survives a page refresh.
-export function removeFromCart(productId) {
-    return function (dispatch, getState) {
-        dispatch(removeCartItem(productId));
-        const cartItems = getState().cart.cartItems;
-        Cookie.set("cartItems", JSON.stringify(cartItems));
-    };
-}
-
-export function addToCart(productId, qty) {
-    return async function (dispatch, getState) {
-        await dispatch(addToCartThunk({ productId, qty }));
-        const cartItems = getState().cart.cartItems;
-        Cookie.set("cartItems", JSON.stringify(cartItems));
-    };
-}
-
+// -------------------------------------------------------------
+// 4. Export Actions and Reducer
+// -------------------------------------------------------------
+export const { removeFromCart, saveShipping, savePayment } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
+export default cartSlice.reducer;

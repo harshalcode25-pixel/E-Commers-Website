@@ -9,6 +9,7 @@ import {
 import { userSigninReducer, userRegisterReducer } from "./slices/userSlice.js";
 import { cartReducer } from "./slices/cartSlice.js";
 
+// Helper function: Safely read saved JSON data from browser cookies
 function readCookie(name) {
     try {
         const savedValue = Cookies.get(name);
@@ -17,15 +18,17 @@ function readCookie(name) {
         }
         return JSON.parse(savedValue);
     } catch {
-        // Ignore cookies that do not contain valid JSON.
         return null;
     }
 }
 
-// Redux keeps the app state; cookies restore the cart and login after refresh.
+// ============================================================================
+// Redux Store Configuration
+// configureStore automatically combines reducers and sets up Redux Thunk
+// ============================================================================
 const store = configureStore({
+    // Combine all slice reducers into a single state tree
     reducer: {
-        // These names match the state paths read by useSelector in the pages.
         cart: cartReducer,
         userSignin: userSigninReducer,
         userRegister: userRegisterReducer,
@@ -34,10 +37,16 @@ const store = configureStore({
         productSave: productSaveReducer,
         productDelete: productDeleteReducer
     },
+    // Initial data restored from cookies when the user first opens the page
     preloadedState: {
-        // Restore saved data before React first reads the store.
-        cart: { cartItems: readCookie("cartItems") || [], shipping: {}, payment: {} },
-        userSignin: { userInfo: readCookie("userInfo") }
+        cart: {
+            cartItems: readCookie("cartItems") || [],
+            shipping: {},
+            payment: {}
+        },
+        userSignin: {
+            userInfo: readCookie("userInfo") || null
+        }
     }
 });
 

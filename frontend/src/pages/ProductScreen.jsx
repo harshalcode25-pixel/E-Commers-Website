@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { detailsProduct } from "../redux/slices/productSlice.js";
+import { addToCart } from "../redux/slices/cartSlice.js";
 import { ArrowLeft } from "lucide-react";
 
 function ProductScreen() {
     const { id } = useParams();
     const [qty, setQty] = useState(1);
+    const [added, setAdded] = useState(false);
     const productDetails = useSelector(state => state.productDetails);
     const { product, loading, error } = productDetails;
     const dispatch = useDispatch();
@@ -17,8 +19,17 @@ function ProductScreen() {
         dispatch(detailsProduct(id));
     }, [dispatch, id]);
 
+    useEffect(() => {
+        if (!added) return;
+        const timer = setTimeout(() => {
+            setAdded(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [added]);
+
     const handleAddToCart = () => {
-        navigate("/cart/" + id + "?qty=" + qty);
+        dispatch(addToCart({ productId: id, qty: Number(qty) }));
+        setAdded(true);
     };
 
     const handleBack = () => {
@@ -73,7 +84,7 @@ function ProductScreen() {
                                 <select
                                     value={qty}
                                     onChange={e => {
-                                        setQty(e.target.value);
+                                        setQty(Number(e.target.value));
                                     }}
                                     className="ml-2 rounded border border-gray-300 p-1"
                                 >
@@ -93,7 +104,7 @@ function ProductScreen() {
                                         onClick={handleAddToCart}
                                         className="cursor-pointer rounded-lg border-2 border-black bg-gold p-4 transition-colors duration-300 hover:bg-white"
                                     >
-                                        Add to Cart
+                                        {added ? "✓ Added to Cart" : "Add to Cart"}
                                     </button>
                                 )}
                             </li>

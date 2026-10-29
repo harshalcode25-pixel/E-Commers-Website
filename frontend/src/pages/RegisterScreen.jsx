@@ -28,7 +28,7 @@ function RegisterScreen() {
         if (password !== rePassword) {
             return;
         }
-        dispatch(register(name, email, password));
+        dispatch(register({ name, email, password }));
     };
     return (
         <div className="flex min-h-[90vh] items-center justify-center px-4 py-6 sm:px-0">

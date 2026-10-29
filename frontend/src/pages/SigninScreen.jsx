@@ -23,7 +23,7 @@ function SigninScreen() {
 
     const submitHandler = e => {
         e.preventDefault();
-        dispatch(signin(email, password));
+        dispatch(signin({ email, password }));
     };
     return (
         <div className="flex min-h-[90vh] items-center justify-center px-4 py-6 sm:px-0">

@@ -19,7 +19,7 @@ function CartScreen() {
     useEffect(() => {
         window.scrollTo(0, 0);
         if (productId) {
-            dispatch(addToCart(productId, qty));
+            dispatch(addToCart({ productId, qty }));
         }
     }, [dispatch, productId, qty]);
     const checkoutHandler = () => {
@@ -66,10 +66,10 @@ function CartScreen() {
                                             value={item.qty}
                                             onChange={e =>
                                                 dispatch(
-                                                    addToCart(
-                                                        item.product,
-                                                        e.target.value
-                                                    )
+                                                    addToCart({
+                                                        productId: item.product,
+                                                        qty: Number(e.target.value)
+                                                    })
                                                 )
                                             }
                                             className="ml-2 mr-4 rounded border border-gray-300 p-1"

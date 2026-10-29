@@ -6,7 +6,9 @@ const { validateRegister, validateSignin } = require("../middlewares/validation.
 const router = express.Router();
 
 router.post("/register", validateRegister, register);
+
 router.post("/signin", validateSignin, signin); 
+
 router.get("/profile", isAuth, getUserProfile);
 
 
