@@ -101,6 +101,7 @@ function ProductScreen() {
                             <li className="my-4 flex flex-col">
                                 {product.countInStock > 0 && (
                                     <button
+                                        type="button"
                                         onClick={handleAddToCart}
                                         className="cursor-pointer rounded-lg border-2 border-black bg-gold p-4 transition-colors duration-300 hover:bg-white"
                                     >
